@@ -1,21 +1,19 @@
 package work.ambitlu;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 一些声明信息
+ * 小程序前台登陆
  *
  * @author Ambi 赵帅
  * @date 2021/1/7 19:03
  */
 @SpringBootApplication
-@MapperScan("work.ambitlu.*.mapper*")
-public class Application {
+public class MiniApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class,args);
+		SpringApplication.run(MiniApplication.class,args);
 	}
 
 }
