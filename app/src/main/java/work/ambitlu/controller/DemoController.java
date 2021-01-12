@@ -3,6 +3,7 @@ package work.ambitlu.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,8 @@ public class DemoController {
 
 	@ApiOperation("欢迎开发者")
 	@GetMapping
-	public String index(){
-		return "Hello zlg 的开发者";
+	public ResponseEntity<String> index(){
+		return new ResponseEntity<>("Hello zlg 的高级开发者!", HttpStatus.OK);
 	}
 
 	@ApiOperation("Demo插入测试")
