@@ -15,7 +15,6 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号隔离
   typeAliasesPackage: work.ambitlu.model
   global-config:
-
     #刷新mapper 调试神器
     banner: false
     db-config:

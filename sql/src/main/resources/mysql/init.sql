@@ -139,3 +139,11 @@ CREATE TABLE `app_connect` (
     PRIMARY KEY (`id`),
     KEY `user_app_id` (`user_id`,`app_id`) COMMENT '用户id和appid联合索引'
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `FILE_META` (
+    `id` bigint(20) unsigned NOT NULL COMMENT 'id',
+    `filekey` varchar(64) DEFAULT NULL COMMENT '文件key',
+    `sizes` bigint DEFAULT NULL COMMENT '文件大小',
+    `mimeType` varchar(64) DEFAULT NULL COMMENT '文件路径',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

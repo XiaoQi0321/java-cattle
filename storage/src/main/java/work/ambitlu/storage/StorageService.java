@@ -1,5 +1,8 @@
 package work.ambitlu.storage;
 
+import org.springframework.web.multipart.MultipartFile;
+import work.ambitlu.storage.response.FileResponseInfo;
+
 /**
  * 文件存储服务接口，隐藏文件保存的实现细节，业务模块直接引用该接口即可
  *
@@ -8,4 +11,7 @@ package work.ambitlu.storage;
  */
 
 public interface StorageService {
+
+	FileResponseInfo upload(MultipartFile file);
+
 }

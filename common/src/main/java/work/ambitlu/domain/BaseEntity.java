@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 公共实体类
@@ -20,6 +21,7 @@ public abstract class BaseEntity<T extends Model> extends Model {
 	 *
 	 */
 	protected  Long id;
+	protected Date createTime;
 
 	public BaseEntity() {
 
@@ -57,6 +59,14 @@ public abstract class BaseEntity<T extends Model> extends Model {
 		}
 		BaseEntity<?> that = (BaseEntity<?>) obj;
 		return null != this.getId() && this.getId().equals(that.getId());
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }
 

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>work.ambitlu</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>common</artifactId>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>

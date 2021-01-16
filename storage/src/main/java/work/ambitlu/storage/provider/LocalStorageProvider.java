@@ -1,17 +1,17 @@
 package work.ambitlu.storage.provider;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 import work.ambitlu.exception.StorageException;
+import work.ambitlu.storage.StorageStrategy;
 import work.ambitlu.storage.response.FileResponseInfo;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -33,23 +33,23 @@ public class LocalStorageProvider implements StorageProvider{
 	 * 本地存储服务接口
 	 * @param path 文件存储目录，不可为空，为空则抛出异常
 	 */
-	public LocalStorageProvider(String path) throws StorageException, IOException {
+	public LocalStorageProvider(String path) throws StorageException {
 		super();
 		if (path == null) {
 			throw new StorageException("Storage path is NULL!");
 		}
 
 		this.path = path.endsWith(SEPERATOR) ? path : path + SEPERATOR;
-		// 初始化目录
-		//File file = new File(this.path);
-		//if (!file.exists()) {
-		//	boolean mkdirs = file.mkdirs();
-		//}
-		// 文件目录
-		Path filePath = Paths.get(this.path);
-		if (!Files.exists(filePath, LinkOption.NOFOLLOW_LINKS)) {
-			Files.createDirectories(filePath);
+		 //初始化目录
+		File file = new File(this.path);
+		if (!file.exists()) {
+			boolean mkdirs = file.mkdirs();
 		}
+		// 文件目录
+		//Path filePath = Paths.get(this.path);
+		//if (!Files.exists(filePath, LinkOption.NOFOLLOW_LINKS)) {
+		//	Files.createDirectories(filePath);
+		//}
 	}
 
 

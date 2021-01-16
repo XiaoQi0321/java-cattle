@@ -2,6 +2,7 @@ package work.ambitlu.storage.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import work.ambitlu.service.FileMeta;
 
 /**
  * 文件返回信息
@@ -26,4 +27,39 @@ public class FileResponseInfo {
 	}
 
 
+	public static final class FileResponseInfoBuilder {
+		private String fileKey;
+		private String fileGroup;
+		private String filePath;
+
+		public FileResponseInfoBuilder() {
+		}
+
+		public static FileResponseInfoBuilder aFileResponseInfo() {
+			return new FileResponseInfoBuilder();
+		}
+
+		public FileResponseInfoBuilder fileKey(String fileKey) {
+			this.fileKey = fileKey;
+			return this;
+		}
+
+		public FileResponseInfoBuilder fileGroup(String fileGroup) {
+			this.fileGroup = fileGroup;
+			return this;
+		}
+
+		public FileResponseInfoBuilder filePath(String filePath) {
+			this.filePath = filePath;
+			return this;
+		}
+
+		public FileResponseInfo build() {
+			FileResponseInfo fileResponseInfo = new FileResponseInfo();
+			fileResponseInfo.setFileKey(fileKey);
+			fileResponseInfo.setFileGroup(fileGroup);
+			fileResponseInfo.setFilePath(filePath);
+			return fileResponseInfo;
+		}
+	}
 }

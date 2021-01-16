@@ -13,6 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan({"work.ambitlu.*.mapper","work.ambitlu.mapper"})
+@MapperScan({"work.ambitlu.*.mapper","work.ambitlu.mapper","work.ambitlu.*Mapper"})
 public class MyBatisConfig {
 }
