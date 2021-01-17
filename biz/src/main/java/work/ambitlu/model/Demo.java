@@ -10,7 +10,7 @@ import work.ambitlu.domain.BaseEntity;
  * @date 2021/1/9 20:13
  */
 @Data
-public class Demo extends BaseEntity<Demo> {
+public class Demo extends BaseEntity {
 
 	private String demo;
 

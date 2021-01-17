@@ -3,12 +3,12 @@ package work.ambitlu.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import work.ambitlu.aliyun.OssPolicyResult;
 import work.ambitlu.aliyun.OssService;
 import work.ambitlu.domain.AccessResult;
+import work.ambitlu.mvc.AbstractController;
 import work.ambitlu.storage.StorageService;
 import work.ambitlu.storage.response.FileResponseInfo;
 import work.ambitlu.storage.response.OssCallbackResult;
@@ -24,7 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Api(tags = "OssController", description = "Oss管理")
 @RequestMapping("/aliyun/oss")
-public class OssController {
+public class OssController extends AbstractController {
+
 	@Autowired
 	private OssService ossService;
 	@Autowired

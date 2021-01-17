@@ -1,11 +1,16 @@
 package work.ambitlu.domain;
 
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -14,37 +19,23 @@ import java.util.Date;
  * @author Ambi 赵帅
  * @date 2021/1/9 19:57
  */
-public abstract class BaseEntity<T extends Model> extends Model {
+@Data
+public abstract class BaseEntity implements Serializable{
 
-	/**
-	 * 实体编号（唯一标志）
-	 *
-	 */
-	protected  Long id;
-	protected Date createTime;
+	private static final long serialVersionUID = 1L;
 
-	public BaseEntity() {
+	@TableId
+	private Long id;
 
-	}
+	@ApiModelProperty(value = "逻辑删除，1：已删除，0：未删除")
+	@TableLogic()
+	private Boolean deleted;
 
-	public BaseEntity(Long id) {
-		this();
-		this.id = id;
-	}
+	@ApiModelProperty(value = "创建时间")
+	private LocalDateTime createTime;
 
-	@JsonSerialize(using= ToStringSerializer.class)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	protected Serializable pkVal() {
-		return this.id;
-	}
+	//@ApiModelProperty(value = "修改时间")
+	//private LocalDateTime utime;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -57,16 +48,8 @@ public abstract class BaseEntity<T extends Model> extends Model {
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		BaseEntity<?> that = (BaseEntity<?>) obj;
+		BaseEntity that = (BaseEntity) obj;
 		return null != this.getId() && this.getId().equals(that.getId());
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 }
-

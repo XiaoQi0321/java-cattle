@@ -16,7 +16,7 @@ import javax.activation.MimeType;
  */
 @Data
 @TableName("FILE_META")
-public class FileMeta  extends BaseEntity<FileMeta> {
+public class FileMeta  extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 

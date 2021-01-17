@@ -3,7 +3,7 @@ package work.ambitlu.domain;
 import java.util.HashMap;
 
 /**
- * 一些声明信息
+ * 前端、小程序返回对象封装
  *
  * @author Ambi 赵帅
  * @date 2021/1/12 22:00

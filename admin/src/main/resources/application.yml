@@ -5,15 +5,15 @@ spring:
   application:
     name: console
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/zlg_shop?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
-    username: root
-    password: root
+    url: jdbc:mysql://175.24.12.207:3306/zlg_shop?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: zlg
+    password: 47b94fe43cc858ee
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   #实体扫描，多个package用逗号或者分号隔离
-  typeAliasesPackage: work.ambitlu.model
+  typeAliasesPackage: work.ambitlu
   global-config:
     #刷新mapper 调试神器
     banner: false

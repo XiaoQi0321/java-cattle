@@ -147,3 +147,133 @@ CREATE TABLE `FILE_META` (
     `mimeType` varchar(64) DEFAULT NULL COMMENT '文件路径',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists pms_product;
+
+/*==============================================================*/
+/* Table: pms_product                                           */
+/*==============================================================*/
+create table pms_product
+(
+    id                   bigint not null auto_increment,
+    brand_id             bigint,
+    product_category_id  bigint,
+    feight_template_id   bigint,
+    product_attribute_category_id bigint,
+    name                 varchar(64) not null,
+    pic                  varchar(255),
+    product_sn           varchar(64) not null comment '货号',
+    delete_status        int(1) comment '删除状态：0->未删除；1->已删除',
+    publish_status       int(1) comment '上架状态：0->下架；1->上架',
+    new_status           int(1) comment '新品状态:0->不是新品；1->新品',
+    recommand_status     int(1) comment '推荐状态；0->不推荐；1->推荐',
+    verify_status        int(1) comment '审核状态：0->未审核；1->审核通过',
+    sort                 int comment '排序',
+    sale                 int comment '销量',
+    price                decimal(10,2),
+    promotion_price      decimal(10,2) comment '促销价格',
+    gift_growth          int default 0 comment '赠送的成长值',
+    gift_point           int default 0 comment '赠送的积分',
+    use_point_limit      int comment '限制使用的积分数',
+    sub_title            varchar(255) comment '副标题',
+    description          text comment '商品描述',
+    original_price       decimal(10,2) comment '市场价',
+    stock                int comment '库存',
+    low_stock            int comment '库存预警值',
+    unit                 varchar(16) comment '单位',
+    weight               decimal(10,2) comment '商品重量，默认为克',
+    preview_status       int(1) comment '是否为预告商品：0->不是；1->是',
+    service_ids          varchar(64) comment '以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮',
+    keywords             varchar(255),
+    note                 varchar(255),
+    album_pics           varchar(255) comment '画册图片，连产品图片限制为5张，以逗号分割',
+    detail_title         varchar(255),
+    detail_desc          text,
+    detail_html          text comment '产品详情网页内容',
+    detail_mobile_html   text comment '移动端网页详情',
+    promotion_start_time datetime comment '促销开始时间',
+    promotion_end_time   datetime comment '促销结束时间',
+    promotion_per_limit  int comment '活动限购数量',
+    promotion_type       int(1) comment '促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购',
+    product_category_name varchar(255) comment '产品分类名称',
+    brand_name           varchar(255) comment '品牌名称',
+    primary key (id)
+);
+
+alter table pms_product comment '商品信息';
+
+
+drop table if exists oms_order;
+
+/*==============================================================*/
+/* Table: oms_order                                             */
+/*==============================================================*/
+create table oms_order
+(
+    id                   bigint not null auto_increment comment '订单id',
+    member_id            bigint not null,
+    coupon_id            bigint,
+    order_sn             varchar(64) comment '订单编号',
+    member_username      varchar(64) comment '用户帐号',
+    total_amount         decimal(10,2) comment '订单总金额',
+    pay_amount           decimal(10,2) comment '应付金额（实际支付金额）',
+    freight_amount       decimal(10,2) comment '运费金额',
+    promotion_amount     decimal(10,2) comment '促销优化金额（促销价、满减、阶梯价）',
+    integration_amount   decimal(10,2) comment '积分抵扣金额',
+    coupon_amount        decimal(10,2) comment '优惠券抵扣金额',
+    discount_amount      decimal(10,2) comment '管理员后台调整订单使用的折扣金额',
+    pay_type             int(1) comment '支付方式：0->未支付；1->支付宝；2->微信',
+    source_type          int(1) comment '订单来源：0->PC订单；1->app订单',
+    status               int(1) comment '订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单',
+    order_type           int(1) comment '订单类型：0->正常订单；1->秒杀订单',
+    delivery_company     varchar(64) comment '物流公司(配送方式)',
+    delivery_sn          varchar(64) comment '物流单号',
+    auto_confirm_day     int comment '自动确认时间（天）',
+    promotion_info       varchar(100) comment '活动信息',
+    receiver_name        varchar(100) not null comment '收货人姓名',
+    receiver_phone       varchar(32) not null comment '收货人电话',
+    receiver_post_code   varchar(32) comment '收货人邮编',
+    receiver_province    varchar(32) comment '省份/直辖市',
+    receiver_city        varchar(32) comment '城市',
+    receiver_region      varchar(32) comment '区',
+    receiver_detail_address varchar(200) comment '详细地址',
+    note                 varchar(500) comment '订单备注',
+    confirm_status       int(1) comment '确认收货状态：0->未确认；1->已确认',
+    deleted        int(1) not null default 0 comment '删除状态：0->未删除；1->已删除',
+    payment_time         datetime comment '支付时间',
+    delivery_time        datetime comment '发货时间',
+    receive_time         datetime comment '确认收货时间',
+    comment_time         datetime comment '评价时间',
+    modify_time          datetime comment '修改时间',
+    create_time          datetime comment '提交时间',
+    primary key (id)
+);
+
+alter table oms_order comment '订单表';
+
+
+drop table if exists oms_order_item;
+
+/*==============================================================*/
+/* Table: oms_order_item                                        */
+/*==============================================================*/
+create table oms_order_item
+(
+    id                   bigint not null auto_increment,
+    order_id             bigint comment '订单id',
+    order_sn             varchar(64) comment '订单编号',
+    product_id           bigint,
+    product_name         varchar(200) comment '商品名称',
+    product_brand        varchar(200) comment '商品名称',
+    product_sn           varchar(64)  comment '商品编号',
+    product_price        decimal(10,2) comment '销售价格',
+    product_quantity     int comment '购买数量',
+    product_sku_id       bigint comment '商品sku编号',
+    product_sku_code     varchar(50) comment '商品sku条码',
+    product_category_id  bigint comment '商品分类id',
+    coupon_amount        decimal(10,2) comment '优惠券优惠分解金额',
+    product_attr         varchar(500) comment '商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]',
+    primary key (id)
+);
+
+alter table oms_order_item comment '订单中所包含的商品';
