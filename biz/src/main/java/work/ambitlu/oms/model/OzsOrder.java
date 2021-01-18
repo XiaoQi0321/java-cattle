@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @TableName("OMS_ORDER")
 @Data
-public class OmsOrder extends BaseEntity {
+public class OzsOrder extends BaseEntity {
 
 	@ApiModelProperty(value = "订单编号")
 	private String orderSn;

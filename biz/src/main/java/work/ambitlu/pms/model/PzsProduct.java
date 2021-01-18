@@ -18,7 +18,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("PMS_PRODUCT")
-public class PmsProduct extends BaseEntity {
+public class PzsProduct extends BaseEntity {
 
 	private Long brandId;
 

@@ -1,7 +1,7 @@
 package work.ambitlu.oms.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import work.ambitlu.oms.model.OmsOrder;
+import work.ambitlu.oms.model.OzsOrder;
 
 /**
  * 订单
@@ -9,5 +9,5 @@ import work.ambitlu.oms.model.OmsOrder;
  * @author Ambi 赵帅
  * @date 2021/1/17 22:30
  */
-public interface OmsOrderMapper extends BaseMapper<OmsOrder> {
+public interface OzsOrderMapper extends BaseMapper<OzsOrder> {
 }

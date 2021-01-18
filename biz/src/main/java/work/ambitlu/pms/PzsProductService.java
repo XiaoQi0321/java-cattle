@@ -1,7 +1,7 @@
 package work.ambitlu.pms;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import work.ambitlu.pms.model.PmsProduct;
+import work.ambitlu.pms.model.PzsProduct;
 
 
 /**
@@ -10,5 +10,5 @@ import work.ambitlu.pms.model.PmsProduct;
  * @author Ambi 赵帅
  * @date 2021/1/17 17:55
  */
-public interface PmsProductService extends IService<PmsProduct> {
+public interface PzsProductService extends IService<PzsProduct> {
 }
