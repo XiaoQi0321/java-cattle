@@ -277,3 +277,24 @@ create table oms_order_item
 );
 
 alter table oms_order_item comment '订单中所包含的商品';
+
+drop table if exists pzs_product_category;
+
+/*==============================================================*/
+/* Table: pms_product_category                                  */
+/*==============================================================*/
+create table pzs_product_category
+(
+    id                   bigint not null,
+    parent_id            bigint,
+    name                 varchar(64),
+    level                int(1) comment '分类级别：0->1级；1->2级',
+    show_status          int(1) comment '显示状态：0->不显示；1->显示',
+    keywords             varchar(255),
+    icon                 varchar(255) comment '图标',
+    description          text comment '描述',
+    sort                 int,
+    primary key (id)
+);
+
+alter table pzs_product_category comment '产品分类';

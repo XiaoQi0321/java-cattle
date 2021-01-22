@@ -3,7 +3,7 @@ package work.ambitlu.service.Impl;
 import org.springframework.stereotype.Service;
 import work.ambitlu.domain.HomeContentResult;
 import work.ambitlu.service.HomeService;
-import work.ambitlu.sms.SzsHomeAdvertise;
+import work.ambitlu.szs.SzsHomeAdvertise;
 
 import java.util.ArrayList;
 import java.util.Collections;

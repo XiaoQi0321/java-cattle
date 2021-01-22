@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: console
+  profiles:
+    active: dev
+  #文件上传设置
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
   datasource:
     url: jdbc:mysql://175.24.12.207:3306/zlg_shop?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
     username: zlg
@@ -15,7 +23,7 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号隔离
   typeAliasesPackage: work.ambitlu
   global-config:
-    #刷新mapper 调试神器
+    #刷新mapper 调试神器/
     banner: false
     db-config:
       table-underline: false #驼峰下划线转换

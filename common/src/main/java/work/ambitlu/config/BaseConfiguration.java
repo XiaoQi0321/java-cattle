@@ -1,8 +1,10 @@
 package work.ambitlu.config;
 
+import cn.hutool.core.lang.Snowflake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import work.ambitlu.common.Version;
 
@@ -23,5 +25,10 @@ public class BaseConfiguration implements InitializingBean {
 		logger.error("=============>操作系统：" + props.getProperty("os.name") + " " + props.getProperty("os.arch") + " " + props.getProperty("os.version"));
 		logger.error("=============>Java环境：" + props.getProperty("java.vendor") + " " + props.getProperty("java.version"));
 		logger.error("=============>私有云版本：" + Version.SERVER);
+	}
+
+	@Bean
+	public Snowflake snowflake() {
+		return new Snowflake(1, 1);
 	}
 }

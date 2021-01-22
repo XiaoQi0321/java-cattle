@@ -2,8 +2,8 @@ package work.ambitlu.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import work.ambitlu.pms.model.PzsProduct;
-import work.ambitlu.sms.SzsHomeAdvertise;
+import work.ambitlu.pzs.model.PzsProduct;
+import work.ambitlu.szs.SzsHomeAdvertise;
 
 import java.util.List;
 
