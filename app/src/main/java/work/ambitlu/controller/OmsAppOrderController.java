@@ -33,11 +33,11 @@ public class OmsAppOrderController extends AbstractController {
         return AccessResult.SUCCESS;
     }
 
-    @ApiOperation("根据购物车信息生成订单")
-    @RequestMapping(value = "/generateOrder", method = RequestMethod.POST)
-    public AccessResult generateOrder() {
-        return AccessResult.SUCCESS;
-    }
+    //@ApiOperation("根据购物车信息生成订单")
+    //@RequestMapping(value = "/generateOrder", method = RequestMethod.POST)
+    //public AccessResult generateOrder() {
+    //    return AccessResult.SUCCESS;
+    //}
 
     @ApiOperation("用户支付成功的回调")
     @RequestMapping(value = "/paySuccess", method = RequestMethod.POST)

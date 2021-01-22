@@ -1,11 +1,12 @@
 package work.ambitlu.config;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.validation.FieldError;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import work.ambitlu.domain.AccessResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,19 +21,30 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	/**
-	 * TODO 可优化
-	 */
+	@ExceptionHandler(BindException.class)
+	public ResponseEntity<String> bindExceptionHandler(BindException e) {
+		e.printStackTrace();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+
+	}
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public AccessResult handleValidationException(MethodArgumentNotValidException e) {
-		log.error("exception message:", e);
-		//Map<String, String> errors = new HashMap<>();
-		//e.getBindingResult().getAllErrors().forEach((error) -> {
-		//	String fieldName = ((FieldError) error).getField();
-		//	String errorMessage = error.getDefaultMessage();
-		//	errors.put(fieldName, errorMessage);
-		//});
-		return AccessResult.newFailureMessage("错误");
+	public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+		e.printStackTrace();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+	}
+
+	/**
+	 * 全局异常捕捉处理
+	 * @param ex
+	 */
+	@ExceptionHandler(value = Exception.class)
+	public ResponseEntity<Map> errorHandler(Exception ex) {
+		ex.printStackTrace();
+		Map map = new HashMap();
+		map.put("code", 100);
+		map.put("message", "error");
+		return ResponseEntity.status(HttpStatus.OK).body(map);
 	}
 
 
