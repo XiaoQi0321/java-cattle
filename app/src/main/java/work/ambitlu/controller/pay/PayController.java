@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import work.ambitlu.core.user.ZlgUser;
 import work.ambitlu.domain.AccessResult;
+import work.ambitlu.mvc.AbstractController;
 import work.ambitlu.ozs.OzsPayService;
 import work.ambitlu.ozs.model.OzsPayInfoDto;
 import work.ambitlu.ozs.model.OzsPayParam;
+import work.ambitlu.utils.Arith;
+import work.ambitlu.utils.HttpContextUtils;
 import work.ambitlu.utils.IPHelper;
 
 /**
@@ -29,7 +33,7 @@ import work.ambitlu.utils.IPHelper;
 @RequestMapping("/order")
 @Api(tags = "订单接口")
 @AllArgsConstructor
-public class PayController {
+public class PayController extends AbstractController {
 
 	private final OzsPayService payService;
 
@@ -44,23 +48,21 @@ public class PayController {
 	@ApiOperation(value = "根据订单号进行支付", notes = "根据订单号进行支付")
 	@SneakyThrows
 	public AccessResult pay(@RequestBody OzsPayParam payParam) {
-		//YamiUser user = SecurityUtils.getUser();
-		//String userId = user.getUserId();
-		//String openId = user.getBizUserId();
 
-
-		OzsPayInfoDto payInfo = payService.pay("1L", payParam);
+		ZlgUser zlgUser = ZUser();
+		// 进行小程序支付
+		OzsPayInfoDto payInfo = payService.pay(zlgUser.getUserId(), payParam);
 
 
 		// 封装给前端的价格
 		WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
 		orderRequest.setBody(payInfo.getBody());
 		orderRequest.setOutTradeNo(payInfo.getPayNo());
-		orderRequest.setTotalFee(1);
+		orderRequest.setTotalFee((int) Arith.mul(payInfo.getPayAmount(), 100));
 		orderRequest.setSpbillCreateIp(IPHelper.getIpAddr());
-		orderRequest.setNotifyUrl("url" + "/notice/pay/order");
+		orderRequest.setNotifyUrl(HttpContextUtils.getDomain() + "/notice/pay/order");
 		orderRequest.setTradeType(WxPayConstants.TradeType.JSAPI);
-		orderRequest.setOpenid("1");
+		orderRequest.setOpenid(zlgUser.getBizUserId());
 		return AccessResult.newSuccessMessage(wxMiniPayService.createOrder(orderRequest));
 	}
 

@@ -14,7 +14,7 @@ import java.util.List;
 public interface OzsPayService {
 
 
-	OzsPayInfoDto pay(String userId, OzsPayParam payParam);
+	OzsPayInfoDto pay(Long userId, OzsPayParam payParam);
 
 	List<String> paySuccess(String payNo, String bizPayNo);
 
