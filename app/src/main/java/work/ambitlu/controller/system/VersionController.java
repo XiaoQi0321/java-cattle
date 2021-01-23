@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import work.ambitlu.common.Version;
 import work.ambitlu.domain.AccessResult;
 import work.ambitlu.mvc.AbstractController;
+import work.ambitlu.utils.HttpContextUtils;
 
 /**
  * 一些声明信息
@@ -24,6 +25,12 @@ public class VersionController extends AbstractController {
 	@GetMapping(path = "/info")
 	public AccessResult getVersionInfo() {
 		return AccessResult.newSuccessMessage(Version.SERVER + "." + Version.DATE);
+	}
+
+	@ApiOperation(value = "版本", notes = "版本")
+	@GetMapping(path = "/domain")
+	public AccessResult getUrl() {
+		return AccessResult.newSuccessMessage(HttpContextUtils.getDomain());
 	}
 
 }

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import work.ambitlu.core.user.ZlgUser;
 
 /**
- * 一些声明信息
+ * 小成功功能基础类
  *
  * @author Ambi 赵帅
  * @date 2021/1/17 16:36
@@ -14,11 +14,8 @@ public abstract class AbstractController {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public ZlgUser ZUser(){
-		ZlgUser zlgUser = new ZlgUser();
-		zlgUser.setUserId(1L);
-		zlgUser.setBizUserId("1");
-		return zlgUser;
+	public ZlgUser zUser(){
+		return new ZlgUser(1L,"1",true);
 	}
 
 }

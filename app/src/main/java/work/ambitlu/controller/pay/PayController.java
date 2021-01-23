@@ -49,7 +49,7 @@ public class PayController extends AbstractController {
 	@SneakyThrows
 	public AccessResult pay(@RequestBody OzsPayParam payParam) {
 
-		ZlgUser zlgUser = ZUser();
+		ZlgUser zlgUser = zUser();
 		// 进行小程序支付
 		OzsPayInfoDto payInfo = payService.pay(zlgUser.getUserId(), payParam);
 

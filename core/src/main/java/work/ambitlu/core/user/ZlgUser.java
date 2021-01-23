@@ -1,7 +1,13 @@
 package work.ambitlu.core.user;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 一些声明信息
@@ -11,7 +17,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ZlgUser {
+public class ZlgUser extends User {
     /**
      * 用户ID
      */
@@ -19,5 +25,13 @@ public class ZlgUser {
 
     private String bizUserId;
 
+    private String name;
+
+
+    public ZlgUser(Long userId, String bizUserId, boolean enabled) {
+        super(bizUserId, "", enabled,true, true, true , Collections.emptyList());
+        this.userId = userId;
+        this.bizUserId = bizUserId;
+    }
 
 }
