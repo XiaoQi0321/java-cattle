@@ -1,9 +1,15 @@
 package work.ambitlu.core.security.handler;
 
+import cn.hutool.core.util.CharsetUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import work.ambitlu.core.entity.GenericResponse;
+import work.ambitlu.core.entity.ServiceError;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,5 +30,10 @@ public class LoginAuthSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		Object principal = authentication.getPrincipal();
 		log.info("获取token 成功：{}", principal);
+
+		response.setCharacterEncoding(CharsetUtil.UTF_8);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setStatus(HttpStatus.OK.value());
+		response.getWriter().write(JSON.toJSONString(GenericResponse.response(ServiceError.NORMAL,authentication.getName())));
 	}
 }

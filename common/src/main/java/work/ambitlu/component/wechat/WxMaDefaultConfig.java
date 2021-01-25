@@ -1,9 +1,15 @@
 package work.ambitlu.component.wechat;
 
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
+import me.chanjar.weixin.common.bean.WxAccessToken;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import work.ambitlu.annotation.RedisLock;
+import work.ambitlu.domain.wechat.WxMiniApp;
+import work.ambitlu.utils.RedisUtil;
+
+import java.util.concurrent.locks.Lock;
 
 /**
  * 基于Redis的微信配置provider
@@ -26,8 +32,114 @@ public class WxMaDefaultConfig extends WxMaDefaultConfigImpl {
 
 	private static final String WX_MA_CARD_API_TICKET_LOCK = "wxMa:card_api_ticket_lock:";
 
-	@Autowired
-	private RedissonClient redissonClient;
+	private String accessTokenKey;
 
+	private String jsapiTicketKey;
+
+	private String cardApiTicketKey;
+
+	private final RedissonClient redissonClient;
+
+	public WxMaDefaultConfig(WxMiniApp wxMiniApp, RedissonClient redissonClient) {
+		this.setAppid(wxMiniApp.getAppid());
+		this.setSecret(wxMiniApp.getSecret());
+		this.redissonClient = redissonClient;
+	}
+
+	/**
+	 * 每个公众号生成独有的存储key.
+	 */
+	@Override
+	public void setAppid(String appId) {
+		super.setAppid(appId);
+		this.accessTokenKey = ACCESS_TOKEN_KEY.concat(appId);
+		this.jsapiTicketKey = JSAPI_TICKET_KEY.concat(appId);
+		this.cardApiTicketKey = CARD_API_TICKET_KEY.concat(appId);
+	}
+
+	@Override
+	public String getAccessToken() {
+		return RedisUtil.get(accessTokenKey);
+	}
+
+	@Override
+	public Lock getAccessTokenLock(){
+		return redissonClient.getLock(WX_MA_ACCESS_TOKEN_LOCK);
+	}
+
+	@Override
+	public boolean isAccessTokenExpired() {
+		return !RedisUtil.hasKey(accessTokenKey);
+	}
+
+	@Override
+	public void expireAccessToken() {
+		RedisUtil.del(accessTokenKey);
+	}
+
+	@Override
+	@RedisLock(lockName = "updateMaAccessToken")
+	public void updateAccessToken(WxAccessToken accessToken) {
+		updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
+	}
+
+
+	@Override
+	@RedisLock(lockName = "updateMaAccessToken")
+	public void updateAccessToken(String accessToken, int expiresInSeconds) {
+		RedisUtil.set(accessTokenKey, accessToken, expiresInSeconds - 200);
+	}
+
+	@Override
+	public String getJsapiTicket() {
+		return RedisUtil.get(jsapiTicketKey);
+	}
+
+	@Override
+	public Lock getJsapiTicketLock() {
+		return redissonClient.getLock(WX_MA_JSAPI_TICKET_LOCK);
+	}
+
+	@Override
+	public boolean isJsapiTicketExpired() {
+		return !RedisUtil.hasKey(jsapiTicketKey);
+	}
+
+	@Override
+	public void expireJsapiTicket() {
+		RedisUtil.del(jsapiTicketKey);
+	}
+
+	@Override
+	@RedisLock(lockName = "updateMaJsapiTicket")
+	public void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
+		RedisUtil.set(jsapiTicketKey, jsapiTicket, expiresInSeconds - 200);
+	}
+
+	@Override
+	public String getCardApiTicket() {
+		return RedisUtil.get(cardApiTicketKey);
+	}
+
+	@Override
+	public Lock getCardApiTicketLock() {
+		return redissonClient.getLock(WX_MA_CARD_API_TICKET_LOCK);
+	}
+
+	@Override
+	public boolean isCardApiTicketExpired() {
+		return !RedisUtil.hasKey(cardApiTicketKey);
+	}
+
+	@Override
+	public void expireCardApiTicket() {
+		RedisUtil.del(cardApiTicketKey);
+	}
+
+	@Override
+	@RedisLock(lockName = "updateMaCardJsapiTicket")
+	public void updateCardApiTicket(String cardApiTicket, int expiresInSeconds) {
+		RedisUtil.set(cardApiTicketKey, cardApiTicket, expiresInSeconds - 200);
+	}
 
 }

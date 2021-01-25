@@ -16,7 +16,7 @@ import work.ambitlu.serializer.json.EmojiJsonSerializer;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("tz_user")
+@TableName("UZS_USERS")
 public class UzsUser extends BaseEntity {
 
 	private String name;

@@ -13,7 +13,7 @@ spring:
       max-request-size: 100MB
       enabled: true
   datasource:
-    url: jdbc:mysql://175.24.12.207:3306/zlg_shop?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://47.103.204.17:3306/zlg_shop?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
     username: zlg
     password: 47b94fe43cc858ee
     driver-class-name: com.mysql.cj.jdbc.Driver

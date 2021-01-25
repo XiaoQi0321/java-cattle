@@ -11,7 +11,7 @@ import lombok.Data;
  * @date 2021/1/23 22:23
  */
 @Data
-@TableName("Uzs_app_connect")
+@TableName("UZS_APP_CONNECT")
 public class AppConnect {
 	/**
 	 * id

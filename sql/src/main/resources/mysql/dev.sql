@@ -49,3 +49,29 @@ create table pms_product
 );
 
 alter table pms_product comment '商品信息';
+
+CREATE TABLE `UZS_USERS` (
+    `id` BIGINT ( 20 ) NOT NULL COMMENT 'id',
+    `name` VARCHAR ( 60 ) DEFAULT NULL COMMENT '用户姓名',
+    `nick_name` VARCHAR ( 100 ) DEFAULT NULL,
+    `password` VARCHAR ( 255 ) DEFAULT NULL,
+    `mobile` VARCHAR ( 20 ) DEFAULT NULL,
+    `pic` VARCHAR ( 20 ) DEFAULT NULL COMMENT '头像链接',
+    `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+    `deleted` TINYINT ( 1 ) DEFAULT '0',
+    PRIMARY KEY ( `id` )
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `UZS_APP_CONNECT` (
+      `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+      `user_id` bigint(20) NOT NULL COMMENT '本系统userId',
+      `app_id` tinyint(2) DEFAULT NULL COMMENT '第三方系统id 1：微信小程序',
+      `nick_name` varchar(64) DEFAULT NULL COMMENT '第三方系统昵称',
+      `image_url` varchar(500) DEFAULT NULL COMMENT '第三方系统头像',
+      `biz_user_id` varchar(255) DEFAULT NULL COMMENT '第三方系统userid',
+      `biz_unionid` varchar(255) DEFAULT NULL COMMENT '第三方系统unionid',
+      `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+      `deleted` TINYINT ( 1 ) DEFAULT '0',
+      PRIMARY KEY (`id`),
+      KEY `user_app_id` (`user_id`,`app_id`) COMMENT '用户id和appid联合索引'
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;

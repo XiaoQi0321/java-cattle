@@ -4,7 +4,10 @@
 
     <select id="getUserByBizUserId" resultType="work.ambitlu.uzs.model.UzsUser">
 
-
+        SELECT * FROM
+            UZS_USERS U
+            LEFT JOIN UZS_APP_CONNECT AC ON U.ID = AC.USER_ID
+            WHERE AC.BIZ_USER_ID = #{bizUserId}
 
     </select>
 

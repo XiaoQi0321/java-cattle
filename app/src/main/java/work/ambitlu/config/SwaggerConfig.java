@@ -10,6 +10,7 @@ import work.ambitlu.domain.SwaggerProperties;
  * @author Ambi 赵帅
  * @date 2021/1/9 17:21
  */
+//@Profile("dev")
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig extends BaseSwaggerConfig {

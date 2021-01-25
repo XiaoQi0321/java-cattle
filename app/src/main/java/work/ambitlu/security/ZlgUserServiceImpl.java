@@ -80,7 +80,7 @@ public class ZlgUserServiceImpl implements ZlgUserDetailsService {
 		if (userId == null){
 			user = new UzsUser();
 			user.setCreateTime(LocalDateTime.now());
-			user.setNickName(EmojiUtil.toAlias(StrUtil.isBlank(appConnect.getNickName()) ? "" : appConnect.getNickName()));
+			//user.setNickName(EmojiUtil.toAlias(StrUtil.isBlank(appConnect.getNickName()) ? "" : appConnect.getNickName()));
 			user.setPic(appConnect.getImageUrl());
 			userMapper.insert(user);
 		} else {

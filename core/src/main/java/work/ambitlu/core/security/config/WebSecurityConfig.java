@@ -13,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
 /**
  * Security 基础配置
@@ -24,6 +26,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Order(90)
 public abstract class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter; // JWT 拦截器
 
 	@Bean
 	public PasswordEncoder passwordEncoder(){
@@ -38,6 +42,7 @@ public abstract class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().
 				sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //关闭session管理，使用token机制处理
 				.and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+		http.addFilterBefore(jwtAuthenticationTokenFilter, AbstractPreAuthenticatedProcessingFilter.class);
 	}
 
 

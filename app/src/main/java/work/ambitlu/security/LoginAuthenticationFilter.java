@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -68,7 +69,7 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 			session = wxMaService.getUserService().getSessionInfo(code);
 
 			loadedUser = zlgUserDetailsService.loadUserByAppIdAndBizUserId(session.getOpenid());
-		} catch (UnknownAccountException | WxErrorException var6) {
+		} catch (UsernameNotFoundException | WxErrorException var6) {
 			if (session == null) {
 				throw new UnknownAccountException("无法获取用户登陆信息");
 			}

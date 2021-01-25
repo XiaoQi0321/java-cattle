@@ -17,6 +17,7 @@ public class WxMaAuthenticationProvider extends AbstractUserDetailsAuthenticatio
 
 	@Override
 	protected Authentication createSuccessAuthentication(Authentication authentication, UserDetails user) {
+		System.out.println("123");
 		return null;
 	}
 
