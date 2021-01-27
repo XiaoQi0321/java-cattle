@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import work.ambitlu.core.security.SecurityProperties;
 import work.ambitlu.core.security.config.WebSecurityConfig;
 
 /**
@@ -39,6 +40,13 @@ public class securityConfig extends WebSecurityConfig {
 		super.configure(http);
 		http.authorizeRequests().antMatchers("/p/**").authenticated()
 				.and().authorizeRequests().anyRequest().permitAll();
+	}
+
+	@Bean
+	public SecurityProperties securityProperties(){
+		SecurityProperties properties = new SecurityProperties();
+		properties.setSessionIdName(SecurityProperties.DEFAULT_ADMIN_SESSION_ID_NAME);
+		return properties;
 	}
 
 }

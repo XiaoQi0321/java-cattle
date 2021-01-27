@@ -1,6 +1,7 @@
 package work.ambitlu.component.wechat;
 
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
+import cn.hutool.http.HttpUtil;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;

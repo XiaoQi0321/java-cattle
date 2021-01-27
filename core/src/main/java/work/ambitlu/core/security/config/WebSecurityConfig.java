@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import work.ambitlu.core.security.service.SessionManager;
+import work.ambitlu.core.security.service.StatelessSessionManager;
 
 /**
  * Security 基础配置
@@ -39,9 +41,9 @@ public abstract class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().
-				sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //关闭session管理，使用token机制处理
-				.and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+		http.csrf().disable()
+				//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //关闭session管理，使用token机制处理
+				.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 		http.addFilterBefore(jwtAuthenticationTokenFilter, AbstractPreAuthenticatedProcessingFilter.class);
 	}
 
@@ -55,5 +57,10 @@ public abstract class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationManager customAuthenticationManager() throws Exception {
 		return authenticationManager();
+	}
+
+	@Bean
+	public SessionManager sessionManager() {
+		return new StatelessSessionManager();
 	}
 }

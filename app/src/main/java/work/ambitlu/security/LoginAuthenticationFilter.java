@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -35,10 +37,15 @@ import java.nio.charset.StandardCharsets;
  * @date 2021/1/23 22:19
  */
 @Component
-public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter implements Ordered {
+
+	public static final int DEFAULT_ORDER = -1;
 
 	private final WxMaService wxMaService;
 	private final ZlgUserDetailsService zlgUserDetailsService;
+
+	@Value("${spring.profiles.active}")
+	private String profile;
 
 	protected LoginAuthenticationFilter(WxMaService wxMaService, ZlgUserDetailsService zlgUserDetailsService) {
 		super("/login");
@@ -66,7 +73,12 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 		AppConnect appConnect = new AppConnect();
 		try {
 
-			session = wxMaService.getUserService().getSessionInfo(code);
+			if ("dev".equals(profile) && "1".equals(code)){
+				session = new WxMaJscode2SessionResult();
+				session.setOpenid("1");
+			} else {
+				session = wxMaService.getUserService().getSessionInfo(code);
+			}
 
 			loadedUser = zlgUserDetailsService.loadUserByAppIdAndBizUserId(session.getOpenid());
 		} catch (UsernameNotFoundException | WxErrorException var6) {
@@ -122,5 +134,10 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 	@Autowired
 	public void setAuthenticationFailureHandler(AuthenticationFailureHandler failureHandler) {
 		super.setAuthenticationFailureHandler(failureHandler);
+	}
+
+	@Override
+	public int getOrder() {
+		return DEFAULT_ORDER;
 	}
 }

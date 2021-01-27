@@ -1,10 +1,14 @@
 package work.ambitlu.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import work.ambitlu.core.security.SecurityProperties;
 import work.ambitlu.core.security.config.WebSecurityConfig;
+import work.ambitlu.core.security.service.SessionManager;
+import work.ambitlu.core.security.service.StatelessSessionManager;
 
 /**
  * securityConfig
@@ -30,6 +34,13 @@ public class securityConfig extends WebSecurityConfig {
 		super.configure(http);
 		http.authorizeRequests().antMatchers("/p/**").authenticated()
 				.and().authorizeRequests().anyRequest().permitAll();
+	}
+
+	@Bean
+	public SecurityProperties securityProperties(){
+		SecurityProperties properties = new SecurityProperties();
+		properties.setSessionIdName(SecurityProperties.DEFAULT_SESSION_ID_NAME);
+		return properties;
 	}
 
 }
