@@ -35,7 +35,7 @@ public abstract class BaseEntity implements Serializable{
 	private LocalDateTime createTime;
 
 	//@ApiModelProperty(value = "修改时间")
-	//private LocalDateTime utime;
+	//private LocalDateTime updateTime;
 
 	@Override
 	public boolean equals(Object obj) {
