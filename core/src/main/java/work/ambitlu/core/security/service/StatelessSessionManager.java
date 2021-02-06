@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import work.ambitlu.core.SpringContextHolder;
 import work.ambitlu.core.Utils.CookieUtils;
 import work.ambitlu.core.security.SecurityProperties;
+import work.ambitlu.core.security.token.AuthenticationTokenCache;
+import work.ambitlu.core.security.token.MyAuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,8 @@ public class StatelessSessionManager implements SessionManager{
     private SecurityProperties securityProperties;
     @Autowired
     private Environment environment;
+    @Autowired
+    private AuthenticationTokenCache cache;
 
     @Override
     public void save(HttpServletRequest request, HttpServletResponse response, Authentication token) {
@@ -34,20 +38,22 @@ public class StatelessSessionManager implements SessionManager{
         // 生成cookie信息
         addCookie(request, response, sessionId);
         // 添加到缓冲中
-        RedisTemplate<String,Object> redisTemplate = SpringContextHolder.getBean("redisTemplate");
-        redisTemplate.opsForValue().set(sessionId,token);
+        cache.addToken(sessionId,token);
+        ((MyAuthenticationToken) token).setToken(sessionId);
     }
 
     @Override
     public Authentication load(HttpServletRequest request) {
         String sessionIdName = securityProperties.getSessionIdName();
         String sessionId = CookieUtils.getCookieValue(request, sessionIdName);
-        // 添加到缓存中
-        RedisTemplate<String,Object> redisTemplate = SpringContextHolder.getBean("redisTemplate");
-        Authentication authentication = (Authentication)redisTemplate.opsForValue().get(sessionId);
+        if(StringUtils.isBlank(sessionId)){
+            return null;
+        }
+
+        Authentication authentication = cache.getToken(sessionId);
         // 更新缓存
         if (authentication != null){
-            redisTemplate.opsForValue().set(sessionId,authentication);
+            cache.set(sessionId,authentication);
         }
         return authentication;
     }

@@ -9,6 +9,7 @@ import work.ambitlu.core.security.SecurityProperties;
 import work.ambitlu.core.security.config.WebSecurityConfig;
 import work.ambitlu.core.security.service.SessionManager;
 import work.ambitlu.core.security.service.StatelessSessionManager;
+import work.ambitlu.core.security.token.AuthenticationTokenCache;
 
 /**
  * securityConfig
@@ -41,6 +42,11 @@ public class securityConfig extends WebSecurityConfig {
 		SecurityProperties properties = new SecurityProperties();
 		properties.setSessionIdName(SecurityProperties.DEFAULT_SESSION_ID_NAME);
 		return properties;
+	}
+
+	@Bean
+	public AuthenticationTokenCache authenticationTokenCache() {
+		return new AuthenticationTokenCache();
 	}
 
 }

@@ -21,6 +21,7 @@ public class MyAuthenticationToken extends AbstractAuthenticationToken {
 	protected Object principal;
 	protected Object credentials;
 	protected Boolean debugger;
+	protected String token;
 
 	public MyAuthenticationToken() {
 		super(null);

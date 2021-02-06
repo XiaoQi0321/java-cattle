@@ -20,6 +20,8 @@ public class AdminAuthenticationToken extends MyAuthenticationToken {
 	private String sessionUUID;
 
 	private String imageCode;
+	private String email;
+	private String password;
 
 	public AdminAuthenticationToken(UserDetails principal, Object credentials) {
 		super(principal, credentials, principal.getAuthorities());

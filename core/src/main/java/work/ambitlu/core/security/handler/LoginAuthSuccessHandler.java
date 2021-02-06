@@ -14,6 +14,7 @@ import work.ambitlu.core.SpringContextHolder;
 import work.ambitlu.core.entity.GenericResponse;
 import work.ambitlu.core.entity.ServiceError;
 import work.ambitlu.core.security.service.SessionManager;
+import work.ambitlu.core.security.token.MyAuthenticationToken;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -44,6 +45,6 @@ public class LoginAuthSuccessHandler implements AuthenticationSuccessHandler {
 		response.setCharacterEncoding(CharsetUtil.UTF_8);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(HttpStatus.OK.value());
-		response.getWriter().write(JSON.toJSONString(GenericResponse.response(ServiceError.NORMAL,authentication.getName())));
+		response.getWriter().write(JSON.toJSONString(GenericResponse.response(ServiceError.NORMAL,((MyAuthenticationToken) authentication).getToken())));
 	}
 }

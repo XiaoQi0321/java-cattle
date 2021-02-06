@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 缓存服务
  *
@@ -34,6 +36,23 @@ public abstract class AbstractCacheService<T> {
 			return false;
 		}
 	}
+
+	public boolean add(String key,T value,int time){
+		try {
+			//任意类型转换成String
+			String val = beanToString(value);
+			if(time>0){
+				stringRedisTemplate.opsForValue().set(key, val, time, TimeUnit.SECONDS);
+			}else{
+				set(key, value);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public T get(String key,Class<T> clazz){
 		try {
 			String value = stringRedisTemplate.opsForValue().get(key);

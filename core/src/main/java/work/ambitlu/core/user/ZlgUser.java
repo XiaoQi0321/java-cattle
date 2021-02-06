@@ -29,7 +29,7 @@ public class ZlgUser extends User {
 
 
     public ZlgUser(Long userId, String bizUserId, boolean enabled) {
-        super(bizUserId, "", enabled,true, true, true , Collections.emptyList());
+        super(bizUserId, "{bcrypt}$2a$10$3gMcIoxtre7seWhKGyl/V.yedT1QXjAECUoWjXUj2boLDW7.PzMym", enabled,true, true, true , Collections.emptyList());
         this.userId = userId;
         this.bizUserId = bizUserId;
     }

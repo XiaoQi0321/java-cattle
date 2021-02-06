@@ -41,7 +41,7 @@ public abstract class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
+		http.cors().and().csrf().disable()
 				//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //关闭session管理，使用token机制处理
 				.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 		http.addFilterBefore(jwtAuthenticationTokenFilter, AbstractPreAuthenticatedProcessingFilter.class);

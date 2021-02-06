@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -63,18 +64,18 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 		AdminAuthenticationToken adminAuthenticationToken  =  Json.parseObject(requestBody, AdminAuthenticationToken.class);
 
 
-		String username = adminAuthenticationToken.getPrincipal() == null?"NONE_PROVIDED":adminAuthenticationToken.getName();
+		String username = adminAuthenticationToken.getPrincipal() == null?"NONE_PROVIDED":adminAuthenticationToken.getEmail();
 
-
-		String kaptchaKey = "imageCode" + adminAuthenticationToken.getSessionUUID();
-
-		String kaptcha = RedisUtil.get(kaptchaKey);
-
-		RedisUtil.del(kaptchaKey);
-
-		if(StrUtil.isBlank(adminAuthenticationToken.getImageCode()) || !adminAuthenticationToken.getImageCode().equalsIgnoreCase(kaptcha)){
-			throw new RuntimeException("验证码有误");
-		}
+		//
+		//String kaptchaKey = "imageCode" + adminAuthenticationToken.getSessionUUID();
+		//
+		//String kaptcha = RedisUtil.get(kaptchaKey);
+		//
+		//RedisUtil.del(kaptchaKey);
+		//
+		//if(StrUtil.isBlank(adminAuthenticationToken.getImageCode()) || !adminAuthenticationToken.getImageCode().equalsIgnoreCase(kaptcha)){
+		//	throw new RuntimeException("验证码有误");
+		//}
 
 		UserDetails user;
 		try {
@@ -84,7 +85,9 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 		}
 
 		String encodedPassword = user.getPassword();
-		String rawPassword = adminAuthenticationToken.getCredentials().toString();
+		String rawPassword = adminAuthenticationToken.getPassword();
+
+		String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(encodedPassword);
 
 		// 密码不正确
 		if (!passwordEncoder.matches(rawPassword,encodedPassword)){
